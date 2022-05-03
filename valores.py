@@ -84,8 +84,7 @@ class valoresExcel:
         return custo
 
 
-if __name__ == '__main__':
-
+def planilhaFinal():
     valores_subgrupos = dict()
     custo_subgrupos = dict()
     quantidade_subgrupos = dict()
@@ -104,9 +103,7 @@ if __name__ == '__main__':
     qtd = 0.0
 
     planilha_pronta = pd.DataFrame(columns=['SubGrupo', 'Quantidade', 'Custo', 'Faturamento'])
-    lista_geral = []
 
-    inicio = time.time()
     for subgrupo in sub_grupos:
         for index, vr in enumerate(sub_grupos_total):
             if vr == subgrupo:
@@ -126,6 +123,5 @@ if __name__ == '__main__':
                  valores_subgrupos[f'{sub_grupos[x]}']]
         planilha_pronta.loc[len(planilha_pronta)] = dados
 
-    fim = time.time()
-    print(print(planilha_pronta))
-    print(fim - inicio)
+    return planilha_pronta
+
