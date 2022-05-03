@@ -1,4 +1,4 @@
-from limpa_planilha import limpaPlanilha
+from valores import limpaPlanilha
 
 faturamento = limpaPlanilha()
 
