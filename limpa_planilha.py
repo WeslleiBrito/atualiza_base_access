@@ -1,29 +1,53 @@
 import pandas as pd
-from busca_planilha import buscaPlanilha
+from busca_planilha import buscaPlanilhaExcel, buscaPlanilhaCsv
 
-class limpaPlanilha:
+class limpaPlanilhaCsv:
     def __init__(self):
-        self.__caminho = buscaPlanilha().caminho
+        self.__caminho = buscaPlanilhaCsv.caminho
 
     @property
     def caminho(self):
         return self.__caminho
 
     def dataframe(self):
-        return pd.read_csv(self.caminho)
+        return pd.read_csv(self.caminho, encoding="latin1")
+
+
+class limpaPlanilhaExcel:
+    def __init__(self):
+        self.__caminho = buscaPlanilhaExcel().caminho
+
+    @property
+    def caminho(self):
+        return self.__caminho
+
+    @property
+    def planilha(self):
+        return self.__dataframe()
+
+    def __dataframe(self):
+        return pd.read_excel(self.caminho, 'A')
 
 
 if __name__ == '__main__':
-    planilha_base = limpaPlanilha()
 
-    sub_grupos = [x for x in planilha_base.dataframe().iloc[:, 0]]
-    quantidade = [x for x in planilha_base.dataframe().iloc[:, 2]]
-    faturamento = [x for x in planilha_base.dataframe().iloc[:, 3]]
-    custo = [x for x in planilha_base.dataframe().iloc[:, 4]]
-    despesa_total = [x for x in planilha_base.dataframe().iloc[:, 5]]
-    despesa_unitaria = [x for x in planilha_base.dataframe().iloc[:, 6]]
-    print(sub_grupos)
-    print(quantidade)
-    print(faturamento)
-    print(despesa_total)
-    print(despesa_unitaria)
+    planExcel = limpaPlanilhaExcel()
+    sub_grupos_total = [subGrupo for subGrupo in planExcel.planilha['Subgrupo']]
+    sub_grupos_total = sub_grupos_total[:-2]
+    sub_grupos = [sub_grupo for sub_grupo in planExcel.planilha['Subgrupo'].unique()]
+    sub_grupos = sub_grupos[:-2]
+    faturamentos = [valor for valor in planExcel.planilha['Valor Total']]
+    valor = 0.0
+
+    valores_subgrupos = dict()
+
+    for subgrupo in sub_grupos:
+        for index, vr in enumerate(sub_grupos_total):
+            if vr == subgrupo:
+                valor += faturamentos[index]
+
+        valores_subgrupos[f'{subgrupo}'] = valor
+        valor = 0.0
+
+    for x in valores_subgrupos.items():
+        print(x)
