@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 from busca_planilha import buscaPlanilhaExcel, buscaPlanilhaCsv
 
 class limpaPlanilhaCsv:
@@ -41,6 +42,7 @@ if __name__ == '__main__':
 
     valores_subgrupos = dict()
 
+    inicio = time.time()
     for subgrupo in sub_grupos:
         for index, vr in enumerate(sub_grupos_total):
             if vr == subgrupo:
@@ -51,3 +53,6 @@ if __name__ == '__main__':
 
     for x in valores_subgrupos.items():
         print(x)
+
+    fim = time.time()
+    print(fim - inicio)
