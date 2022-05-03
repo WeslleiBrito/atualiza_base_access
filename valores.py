@@ -51,10 +51,6 @@ class valoresExcel:
     def custo(self):
         return self.__custos()
 
-    @property
-    def calculos(self):
-        return self.__calculos()
-
     def __dataframe(self):
         return pd.read_excel(self.caminho, 'A')
 
@@ -86,47 +82,6 @@ class valoresExcel:
             x = quantidade * custos[index]
             custo.append(x)
         return custo
-
-    def __calculos(self):
-
-        quantidade = 0.0
-        custo = 0.0
-        faturamento = 0.0
-
-        faturamento_subgrupos = dict()
-        custo_subgrupos = dict()
-        quantidade_subgrupos = dict()
-        indeces = []
-        for sub in self.sub_grupo_unitario:
-            for indice, subg in enumerate(self.sub_grupos):
-                if sub == subg:
-                    indeces.append(indice)
-
-            for vr in indeces:
-                quantidade += self.quantidades[vr]
-                custo += self.custo[vr]
-                faturamento += self.faturamentos[vr]
-            print(f'SubGrupo: {sub}, Quantidade: {quantidade}, Custo: {custo}, Faturamento: {faturamento}')
-            quantidade = 0.0
-            custo = 0.0
-            faturamento = 0.0
-            indeces.clear()
-
-        #     for indice, subGrupo in enumerate(self.sub_grupos):
-        #         if sub == subGrupo:
-        #             quantidade += self.quantidades[indice]
-        #             custo += self.custo[indice]
-        #             faturamento += self.faturamentos[indice]
-        #
-        #     quantidade_subgrupos[f'{sub}'] = quantidade
-        #     custo_subgrupos[f'{sub}'] = custo
-        #     faturamento_subgrupos[f'{sub}'] = faturamento
-        #     print(f'SubGrupo: {sub}, Quantidade: {quantidade}, Custo: {custo}, Faturamento: {faturamento}')
-        #     quantidade = 0.0
-        #     custo = 0.0
-        #     faturamento = 0.0
-        #
-        # return [quantidade_subgrupos, custo_subgrupos, faturamento_subgrupos]
 
 
 if __name__ == '__main__':
@@ -173,5 +128,4 @@ if __name__ == '__main__':
 
     fim = time.time()
     print(print(planilha_pronta))
-    print(sub_grupos)
     print(fim - inicio)
